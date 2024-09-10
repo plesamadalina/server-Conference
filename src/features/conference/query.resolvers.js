@@ -44,13 +44,13 @@ const conferenceQueryResolvers = {
   },
 
   Location: {
-    city: cityId => {
+    city: ({ cityId }) => {
       return prisma().dictionaryCity.findUnique({ where: { id: cityId } })
     },
-    county: countyId => {
+    county: ({ countyId }) => {
       return prisma().dictionaryCounty.findUnique({ where: { id: countyId } })
     },
-    country: countryId => {
+    country: ({ countryId }) => {
       return prisma().dictionaryCountry.findUnique({ where: { id: countryId } })
     }
   }
