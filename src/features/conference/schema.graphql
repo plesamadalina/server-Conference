@@ -62,7 +62,7 @@ type Conference {
   type: Type
   category: Category
   organizerEmail: String!
-  speakers: [Speaker!]!
+  speakers: [Speaker!]
   location: Location
   status(userEmail: String!): Status
 }
