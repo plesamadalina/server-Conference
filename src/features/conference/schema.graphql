@@ -72,7 +72,43 @@ input ConferenceFilterInput {
   endDate: DateTime
 }
 
+input ConferenceInput {
+  id: Int
+  name: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  organizerEmail: String!
+  typeId: Int!
+  categoryId: Int!
+  location: LocationInput!
+  speakers: [SpeakerInput!]
+  deletedSpeakers: [Int!]
+}
+
+input LocationInput {
+  id: Int
+  name: String!
+  address: String
+  cityId: Int!
+  countryId: Int!
+  countyId: Int!
+  latitude: Float
+  longitude: Float
+}
+
+input SpeakerInput {
+  id: Int
+  name: String!
+  rating: ConferenceFilterInput
+  nationality: String
+  isMainSpeaker: Boolean
+}
+
 extend type Query {
   conferenceList(filters: ConferenceFilterInput, userEmail: String!): [Conference]
   conference(id: Int!): Conference!
+}
+
+extend type Mutation {
+  saveConference(input: ConferenceInput!): Conference!
 }
