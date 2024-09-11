@@ -88,6 +88,7 @@ input ConferenceInput {
 input LocationInput {
   id: Int
   name: String!
+  code: String!
   address: String
   cityId: Int!
   countryId: Int!
@@ -99,7 +100,7 @@ input LocationInput {
 input SpeakerInput {
   id: Int
   name: String!
-  rating: ConferenceFilterInput
+  rating: Float
   nationality: String
   isMainSpeaker: Boolean
 }

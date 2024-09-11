@@ -3,13 +3,13 @@ const { map } = require('ramda')
 
 const conferenceMutationResolvers = {
   Mutation: {
-    saveConference: (_parent, { input }, _ctx, _info) => {
+    saveConference: async (_parent, { input }, _ctx, _info) => {
       const { id: conferenceId, location, typeId, categoryId, deletedSpeakers, speakers, ...restConference } = input
       const { id: locationId, ...restLocation } = location
 
       //we use the upsert method to update the location if it already exists or create it if it doesn't
-      const result = prisma().$transaction(async prismaClient => {
-        const upsertedLocation = prismaClient.location.upsert({
+      const result = await prisma().$transaction(async prismaClient => {
+        const upsertedLocation = await prismaClient.location.upsert({
           where: { id: locationId || -1 },
           update: restLocation,
           create: restLocation

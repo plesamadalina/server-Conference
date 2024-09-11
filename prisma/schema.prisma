@@ -125,7 +125,7 @@ model Feedback {
 model Location {
   id                Int               @id(map: "PK_Location") @default(autoincrement()) @map("Id")
   name              String?           @map("Name") @db.NVarChar(255)
-  code              String            @map("Code") @db.NVarChar(Max)
+  code              String?           @map("Code") @db.NVarChar(Max)
   countryId         Int               @map("CountryId")
   address           String?           @map("Address") @db.NVarChar(255)
   countyId          Int               @map("CountyId")
