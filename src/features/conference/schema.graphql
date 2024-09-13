@@ -120,4 +120,5 @@ extend type Query {
 extend type Mutation {
   saveConference(input: ConferenceInput!): Conference!
   changeAttendeeStatus(input: AttendeeInput!): String
+  deleteConference(id: Int!):String
 }
