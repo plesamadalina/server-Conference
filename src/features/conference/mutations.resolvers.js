@@ -54,8 +54,12 @@ const conferenceMutationResolvers = {
           }, speakers)
         )
 
-        return upsertedConference
+        return prismaClient.conference.findUnique({
+          where: { id: upsertedConference.id },
+          include: { conferenceXSpeaker: { include: { speaker: true } } }
+        })
       })
+      const updatedSpeakers = result.conferenceXSpeaker.map(s => s.speaker)
 
       await Promise.all(
         map(async speaker => {
@@ -63,7 +67,7 @@ const conferenceMutationResolvers = {
             conferenceId: result.id,
             receiverId: speaker.id
           })
-        }, input.speakers)
+        }, updatedSpeakers)
       )
       return result
     }

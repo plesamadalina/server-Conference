@@ -103,6 +103,7 @@ input SpeakerInput {
   rating: Float
   nationality: String
   isMainSpeaker: Boolean
+  phoneNumber: String
 }
 
 extend type Query {
