@@ -3,7 +3,7 @@ const { map } = require('ramda')
 
 const conferenceMutationResolvers = {
   Mutation: {
-    saveConference: async (_parent, { input }, _ctx, _info) => {
+    saveConference: async (_parent, { input }, { dataSources }, _info) => {
       const { id: conferenceId, location, typeId, categoryId, deletedSpeakers, speakers, ...restConference } = input
       const { id: locationId, ...restLocation } = location
 
@@ -56,6 +56,15 @@ const conferenceMutationResolvers = {
 
         return upsertedConference
       })
+
+      await Promise.all(
+        map(async speaker => {
+          await dataSources.conferenceApi.sendSMSNotification({
+            conferenceId: result.id,
+            receiverId: speaker.id
+          })
+        }, input.speakers)
+      )
       return result
     }
   }
