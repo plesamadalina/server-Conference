@@ -53,6 +53,11 @@ type Location {
   latitude: Float
   longitude: Float
 }
+type Attendee {
+  id: Int!
+  attendeeEmail: String!
+  statusId: Int!
+}
 
 type Conference {
   id: Int!
@@ -65,6 +70,7 @@ type Conference {
   speakers: [Speaker!]
   location: Location
   status(userEmail: String!): Status
+  attendees: [Attendee!]! #AM BAGAT SI ATTENDEE
 }
 
 input ConferenceFilterInput {
@@ -115,10 +121,13 @@ input AttendeeInput {
 extend type Query {
   conferenceList(filters: ConferenceFilterInput, userEmail: String!): [Conference]
   conference(id: Int!): Conference!
+
+  #query pentru speaker!!!!
+  speakerList: [Speaker!]!
 }
 
 extend type Mutation {
   saveConference(input: ConferenceInput!): Conference!
   changeAttendeeStatus(input: AttendeeInput!): String
-  deleteConference(id: Int!):String
+  deleteConference(id: Int!): String
 }

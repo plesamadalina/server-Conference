@@ -14,6 +14,16 @@ const conferenceQueryResolvers = {
     },
     conference: (_parent, { id }, _ctx, _info) => {
       return prisma().conference.findUnique({ where: { id } })
+    },
+
+    speakerList: async () => {
+      try {
+        const speakers = await prisma().speaker.findMany() // Adjust this query based on your schema
+        return speakers || [] // Return an empty array if speakers is null or undefined
+      } catch (error) {
+        console.error('Error fetching speakers:', error)
+        throw new Error('Failed to fetch speakers') // Proper error handling
+      }
     }
   },
 
@@ -40,6 +50,12 @@ const conferenceQueryResolvers = {
         .Conference.findUnique({ where: { id } })
         .conferenceXSpeaker({ include: { speaker: true } })
       return map(({ isMainSpeaker, speaker }) => ({ isMainSpeaker, ...speaker }), result)
+    },
+    //AICI AM BAGAT ATTENDEES
+    attendees: async ({ id }) => {
+      return prisma().conferenceXAttendee.findMany({
+        where: { conferenceId: id }
+      })
     }
   },
 
